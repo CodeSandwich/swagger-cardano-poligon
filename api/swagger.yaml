@@ -1,0 +1,703 @@
+---
+swagger: "2.0"
+info:
+  version: "cardano-sl:0.0.0"
+  title: "Cardano Node API"
+  license:
+    name: "MIT"
+    url: "https://raw.githubusercontent.com/input-output-hk/cardano-sl/develop/lib/LICENSE"
+host: "127.0.0.1:8080"
+paths:
+  /api/v1/next-update:
+    get:
+      tags:
+      - "Updates"
+      summary: "Version of the next update"
+      description: "Returns 404 if there's no available update."
+      produces:
+      - "application/json;charset=utf-8"
+      parameters: []
+      responses:
+        200:
+          description: ""
+          schema:
+            $ref: "#/definitions/APIResponse-V1 SoftwareVersion"
+          x-responseId: ""
+          x-uppercaseResponseId: ""
+          uppercase_operation_id: "API_V1_NEXT_UPDATE_GET"
+          uppercase_data_type: "APIRESPONSEV1SOFTWAREVERSION"
+          producesJson: true
+      operation_id: "api_v1_next_update_get"
+      uppercase_operation_id: "API_V1_NEXT_UPDATE_GET"
+      path: "/api/v1/next-update"
+      PATH_ID: "API_V1_NEXT_UPDATE"
+      hasPathParams: false
+      HttpMethod: "Get"
+  /api/v1/node-info:
+    get:
+      tags:
+      - "Info"
+      summary: "Retrieves the dynamic information for this node."
+      produces:
+      - "application/json;charset=utf-8"
+      parameters:
+      - name: "force_ntp_check"
+        in: "query"
+        description: "In some cases, API Clients need to force a new NTP check as\
+          \ a previous result gets cached. A typical use-case is after asking a user\
+          \ to fix its system clock. If this flag is set, request will block until\
+          \ NTP server responds or it will timout if NTP server is not available within\
+          \ **30** seconds."
+        required: false
+        type: "boolean"
+        default: false
+        allowEmptyValue: true
+        formatString: "{:?}"
+        example: "Some(true)"
+      responses:
+        200:
+          description: ""
+          schema:
+            $ref: "#/definitions/APIResponse-NodeInfo"
+          x-responseId: ""
+          x-uppercaseResponseId: ""
+          uppercase_operation_id: "API_V1_NODE_INFO_GET"
+          uppercase_data_type: "APIRESPONSENODEINFO"
+          producesJson: true
+        400:
+          description: "Invalid `force_ntp_check`"
+          x-responseId: "Invalid_"
+          x-uppercaseResponseId: "INVALID_"
+          uppercase_operation_id: "API_V1_NODE_INFO_GET"
+      operation_id: "api_v1_node_info_get"
+      uppercase_operation_id: "API_V1_NODE_INFO_GET"
+      path: "/api/v1/node-info"
+      PATH_ID: "API_V1_NODE_INFO"
+      hasPathParams: false
+      HttpMethod: "Get"
+  /api/v1/node-settings:
+    get:
+      tags:
+      - "Settings"
+      summary: "Retrieves the static settings for this node."
+      produces:
+      - "application/json;charset=utf-8"
+      parameters: []
+      responses:
+        200:
+          description: ""
+          schema:
+            $ref: "#/definitions/APIResponse-NodeSettings"
+          x-responseId: ""
+          x-uppercaseResponseId: ""
+          uppercase_operation_id: "API_V1_NODE_SETTINGS_GET"
+          uppercase_data_type: "APIRESPONSENODESETTINGS"
+          producesJson: true
+      operation_id: "api_v1_node_settings_get"
+      uppercase_operation_id: "API_V1_NODE_SETTINGS_GET"
+      path: "/api/v1/node-settings"
+      PATH_ID: "API_V1_NODE_SETTINGS"
+      hasPathParams: false
+      HttpMethod: "Get"
+  /api/v1/restart-node:
+    post:
+      tags:
+      - "Updates"
+      summary: "Restart the node"
+      description: "Restart the underlying node software. If there's an update available,\
+        \ the update will be applied upon restart."
+      produces:
+      - "application/json;charset=utf-8"
+      parameters: []
+      responses:
+        202:
+          description: ""
+          x-responseId: ""
+          x-uppercaseResponseId: ""
+          uppercase_operation_id: "API_V1_RESTART_NODE_POST"
+      operation_id: "api_v1_restart_node_post"
+      uppercase_operation_id: "API_V1_RESTART_NODE_POST"
+      path: "/api/v1/restart-node"
+      PATH_ID: "API_V1_RESTART_NODE"
+      hasPathParams: false
+      HttpMethod: "Post"
+definitions:
+  APIResponse-NodeInfo:
+    type: "object"
+    required:
+    - "data"
+    - "meta"
+    - "status"
+    properties:
+      data:
+        $ref: "#/definitions/NodeInfo"
+      meta:
+        $ref: "#/definitions/Metadata"
+      status:
+        $ref: "#/definitions/ResponseStatus"
+    example:
+      data:
+        blockchainHeight:
+          quantity: 12513853667654321111
+          unit: "blocks"
+        localBlockchainHeight:
+          quantity: 12988764939106870466
+          unit: "blocks"
+        localTimeInformation:
+          differenceFromNtpServer: null
+        subscriptionStatus:
+          150.136.236.249:2504:2: "subscribed"
+          242.71.149.224:2160:1: "subscribed"
+        syncProgress:
+          quantity: 14
+          unit: "percent"
+      meta:
+        pagination:
+          perPage: {}
+          totalPages: 1351973845562961920
+          page: {}
+          totalEntries: 5559347081229897728
+      status: {}
+    upperCaseName: "APIRESPONSE-NODEINFO"
+  APIResponse-NodeSettings:
+    type: "object"
+    required:
+    - "data"
+    - "meta"
+    - "status"
+    properties:
+      data:
+        $ref: "#/definitions/NodeSettings"
+      meta:
+        $ref: "#/definitions/Metadata"
+      status:
+        $ref: "#/definitions/ResponseStatus"
+    example:
+      data:
+        feePolicy:
+          a:
+            quantity: -12.457099816
+            unit: "lovelace/byte"
+          b:
+            quantity: -0.33614655
+            unit: "lovelace"
+        gitRevision: "0e1c9322a"
+        maxTxSize:
+          quantity: 0
+          unit: "bytes"
+        projectVersion: "3"
+        securityParameter: 1
+        slotCount: 2
+        slotDuration:
+          quantity: 60
+          unit: "milliseconds"
+        slotId:
+          epoch: 3216935222109
+          slot: 41
+        softwareInfo:
+          applicationName: "ZY2"
+          version: 1
+      meta:
+        pagination:
+          perPage: {}
+          totalPages: 1351973845562961920
+          page: {}
+          totalEntries: 5559347081229897728
+      status: {}
+    upperCaseName: "APIRESPONSE-NODESETTINGS"
+  APIResponse-V1 SoftwareVersion:
+    type: "object"
+    required:
+    - "data"
+    - "meta"
+    - "status"
+    properties:
+      data:
+        $ref: "#/definitions/V1SoftwareVersion"
+      meta:
+        $ref: "#/definitions/Metadata"
+      status:
+        $ref: "#/definitions/ResponseStatus"
+    example:
+      data:
+        version: 343953088
+        applicationName: "applicationName"
+      meta:
+        pagination:
+          perPage: {}
+          totalPages: 1351973845562961920
+          page: {}
+          totalEntries: 5559347081229897728
+      status: {}
+    upperCaseName: "APIRESPONSE-V1 SOFTWAREVERSION"
+  BlockchainHeight:
+    type: "object"
+    required:
+    - "quantity"
+    - "unit"
+    properties:
+      quantity:
+        type: "integer"
+        minimum: 0
+        maximum: 9223372036854775807
+      unit:
+        type: "string"
+        enum:
+        - "blocks"
+    upperCaseName: "BLOCKCHAINHEIGHT"
+  LocalTimeDifference:
+    type: "object"
+    required:
+    - "quantity"
+    - "unit"
+    properties:
+      quantity:
+        type: "integer"
+      unit:
+        type: "string"
+        enum:
+        - "microseconds"
+    upperCaseName: "LOCALTIMEDIFFERENCE"
+  MaxTxSize:
+    type: "object"
+    required:
+    - "quantity"
+    - "unit"
+    properties:
+      quantity:
+        type: "integer"
+        minimum: 0
+        maximum: 9223372036854775807
+      unit:
+        type: "string"
+        enum:
+        - "bytes"
+    upperCaseName: "MAXTXSIZE"
+  Metadata:
+    type: "object"
+    required:
+    - "pagination"
+    properties:
+      pagination:
+        $ref: "#/definitions/PaginationMetadata"
+    example:
+      pagination:
+        perPage: {}
+        totalPages: 1351973845562961920
+        page: {}
+        totalEntries: 5559347081229897728
+    upperCaseName: "METADATA"
+  NodeInfo:
+    type: "object"
+    required:
+    - "localBlockchainHeight"
+    - "localTimeInformation"
+    - "subscriptionStatus"
+    - "syncProgress"
+    properties:
+      blockchainHeight:
+        $ref: "#/definitions/NodeInfo_blockchainHeight"
+      localBlockchainHeight:
+        $ref: "#/definitions/NodeInfo_localBlockchainHeight"
+      localTimeInformation:
+        $ref: "#/definitions/NodeInfo_localTimeInformation"
+      subscriptionStatus:
+        type: "object"
+        description: "Is the node connected to the network?"
+        additionalProperties:
+          $ref: "#/definitions/SubscriptionStatus"
+      syncProgress:
+        $ref: "#/definitions/NodeInfo_syncProgress"
+    example:
+      blockchainHeight:
+        quantity: 12513853667654321111
+        unit: "blocks"
+      localBlockchainHeight:
+        quantity: 12988764939106870466
+        unit: "blocks"
+      localTimeInformation:
+        differenceFromNtpServer: null
+      subscriptionStatus:
+        150.136.236.249:2504:2: "subscribed"
+        242.71.149.224:2160:1: "subscribed"
+      syncProgress:
+        quantity: 14
+        unit: "percent"
+    upperCaseName: "NODEINFO"
+  NodeSettings:
+    type: "object"
+    required:
+    - "feePolicy"
+    - "gitRevision"
+    - "maxTxSize"
+    - "projectVersion"
+    - "securityParameter"
+    - "slotCount"
+    - "slotDuration"
+    - "slotId"
+    - "softwareInfo"
+    properties:
+      feePolicy:
+        $ref: "#/definitions/NodeSettings_feePolicy"
+      gitRevision:
+        type: "string"
+        description: "Git revision of this deployment."
+      maxTxSize:
+        $ref: "#/definitions/NodeSettings_maxTxSize"
+      projectVersion:
+        type: "string"
+        description: "Current project's version."
+      securityParameter:
+        type: "number"
+        description: "The security parameter."
+        minimum: 0
+      slotCount:
+        type: "number"
+        description: "The number of slots per epoch."
+        minimum: 0
+      slotDuration:
+        $ref: "#/definitions/NodeSettings_slotDuration"
+      slotId:
+        $ref: "#/definitions/NodeSettings_slotId"
+      softwareInfo:
+        $ref: "#/definitions/NodeSettings_softwareInfo"
+    example:
+      feePolicy:
+        a:
+          quantity: -12.457099816
+          unit: "lovelace/byte"
+        b:
+          quantity: -0.33614655
+          unit: "lovelace"
+      gitRevision: "0e1c9322a"
+      maxTxSize:
+        quantity: 0
+        unit: "bytes"
+      projectVersion: "3"
+      securityParameter: 1
+      slotCount: 2
+      slotDuration:
+        quantity: 60
+        unit: "milliseconds"
+      slotId:
+        epoch: 3216935222109
+        slot: 41
+      softwareInfo:
+        applicationName: "ZY2"
+        version: 1
+    upperCaseName: "NODESETTINGS"
+  Page:
+    type: "integer"
+    default: 1
+    upperCaseName: "PAGE"
+  PaginationMetadata:
+    type: "object"
+    required:
+    - "page"
+    - "perPage"
+    - "totalEntries"
+    - "totalPages"
+    properties:
+      page:
+        $ref: "#/definitions/Page"
+      perPage:
+        $ref: "#/definitions/PerPage"
+      totalEntries:
+        type: "number"
+        minimum: 0
+        maximum: 9223372036854775807
+      totalPages:
+        type: "number"
+        minimum: 0
+        maximum: 9223372036854775807
+    example:
+      perPage: {}
+      totalPages: 1351973845562961920
+      page: {}
+      totalEntries: 5559347081229897728
+    upperCaseName: "PAGINATIONMETADATA"
+  PerPage:
+    type: "integer"
+    default: 10
+    upperCaseName: "PERPAGE"
+  ResponseStatus:
+    type: "string"
+    enum:
+    - "success"
+    - "fail"
+    - "error"
+    upperCaseName: "RESPONSESTATUS"
+  SecurityParameter:
+    type: "number"
+    upperCaseName: "SECURITYPARAMETER"
+  SlotDuration:
+    type: "object"
+    required:
+    - "quantity"
+    - "unit"
+    properties:
+      quantity:
+        type: "integer"
+        minimum: 0
+        maximum: 9223372036854775807
+      unit:
+        type: "string"
+        enum:
+        - "milliseconds"
+    upperCaseName: "SLOTDURATION"
+  SlotId:
+    type: "object"
+    properties:
+      epoch:
+        type: "integer"
+        minimum: 0
+        maximum: 9223372036854775807
+      slot:
+        type: "integer"
+        minimum: 0
+        maximum: 65535
+    upperCaseName: "SLOTID"
+  SubscriptionStatus:
+    type: "string"
+    enum:
+    - "subscribed"
+    - "subscribing"
+    upperCaseName: "SUBSCRIPTIONSTATUS"
+  SyncPercentage:
+    type: "object"
+    required:
+    - "quantity"
+    - "unit"
+    properties:
+      quantity:
+        type: "integer"
+        minimum: 0
+        maximum: 100
+      unit:
+        type: "string"
+        enum:
+        - "percent"
+    upperCaseName: "SYNCPERCENTAGE"
+  TimeInfo:
+    type: "object"
+    properties:
+      differenceFromNtpServer:
+        $ref: "#/definitions/NodeInfo_localTimeInformation_differenceFromNtpServer"
+    example:
+      differenceFromNtpServer:
+        quantity: -1
+        unit: "microseconds"
+    upperCaseName: "TIMEINFO"
+  TxFeePolicy:
+    type: "object"
+    required:
+    - "a"
+    - "b"
+    properties:
+      a:
+        $ref: "#/definitions/NodeSettings_feePolicy_a"
+      b:
+        $ref: "#/definitions/NodeSettings_feePolicy_b"
+    upperCaseName: "TXFEEPOLICY"
+  TxOut:
+    type: "object"
+    required:
+    - "address"
+    - "coin"
+    properties:
+      address:
+        type: "string"
+      coin:
+        type: "number"
+    upperCaseName: "TXOUT"
+  TxOutAux:
+    type: "object"
+    required:
+    - "toaOut"
+    properties:
+      toaOut:
+        $ref: "#/definitions/TxOut"
+    upperCaseName: "TXOUTAUX"
+  V1Core.SlotCount:
+    type: "number"
+    upperCaseName: "V1CORE.SLOTCOUNT"
+  V1SoftwareVersion:
+    type: "object"
+    required:
+    - "applicationName"
+    - "version"
+    properties:
+      applicationName:
+        type: "string"
+      version:
+        type: "integer"
+        minimum: 0
+        maximum: 4294967295
+    example:
+      version: 343953088
+      applicationName: "applicationName"
+    upperCaseName: "V1SOFTWAREVERSION"
+  V1Version:
+    type: "string"
+    upperCaseName: "V1VERSION"
+  NodeInfo_blockchainHeight:
+    required:
+    - "quantity"
+    - "unit"
+    properties:
+      quantity:
+        type: "integer"
+        minimum: 0
+        maximum: 9223372036854775807
+      unit:
+        type: "string"
+        enum:
+        - "blocks"
+    description: "If known, the current blockchain height, in number of blocks."
+    upperCaseName: "NODEINFO_BLOCKCHAINHEIGHT"
+  NodeInfo_localBlockchainHeight:
+    required:
+    - "quantity"
+    - "unit"
+    properties:
+      quantity:
+        type: "integer"
+        minimum: 0
+        maximum: 9223372036854775807
+      unit:
+        type: "string"
+        enum:
+        - "blocks"
+    description: "Local blockchain height, in number of blocks."
+    upperCaseName: "NODEINFO_LOCALBLOCKCHAINHEIGHT"
+  NodeInfo_localTimeInformation_differenceFromNtpServer:
+    required:
+    - "quantity"
+    - "unit"
+    properties:
+      quantity:
+        type: "integer"
+      unit:
+        type: "string"
+        enum:
+        - "microseconds"
+    description: "The difference in microseconds between the node time and the NTP\
+      \ server. This value will be null if the NTP server is unavailable."
+    upperCaseName: "NODEINFO_LOCALTIMEINFORMATION_DIFFERENCEFROMNTPSERVER"
+  NodeInfo_localTimeInformation:
+    properties:
+      differenceFromNtpServer:
+        $ref: "#/definitions/NodeInfo_localTimeInformation_differenceFromNtpServer"
+    description: "Information about the clock on this node."
+    example: "{\"differenceFromNtpServer\":{\"quantity\":-1,\"unit\":\"microseconds\"\
+      }}"
+    upperCaseName: "NODEINFO_LOCALTIMEINFORMATION"
+  NodeInfo_syncProgress:
+    required:
+    - "quantity"
+    - "unit"
+    properties:
+      quantity:
+        type: "integer"
+        minimum: 0
+        maximum: 100
+      unit:
+        type: "string"
+        enum:
+        - "percent"
+    description: "Syncing progression, in percentage."
+    upperCaseName: "NODEINFO_SYNCPROGRESS"
+  NodeSettings_feePolicy_a:
+    required:
+    - "quantity"
+    - "unit"
+    properties:
+      quantity:
+        type: "number"
+        format: "double"
+      unit:
+        type: "string"
+        enum:
+        - "lovelace/byte"
+    description: "Slope of the linear curve"
+    upperCaseName: "NODESETTINGS_FEEPOLICY_A"
+  NodeSettings_feePolicy_b:
+    required:
+    - "quantity"
+    - "unit"
+    properties:
+      quantity:
+        type: "number"
+        format: "double"
+      unit:
+        type: "string"
+        enum:
+        - "lovelace"
+    description: "Intercept of the linear curve"
+    upperCaseName: "NODESETTINGS_FEEPOLICY_B"
+  NodeSettings_feePolicy:
+    required:
+    - "a"
+    - "b"
+    properties:
+      a:
+        $ref: "#/definitions/NodeSettings_feePolicy_a"
+      b:
+        $ref: "#/definitions/NodeSettings_feePolicy_b"
+    description: "The fee policy."
+    upperCaseName: "NODESETTINGS_FEEPOLICY"
+  NodeSettings_maxTxSize:
+    required:
+    - "quantity"
+    - "unit"
+    properties:
+      quantity:
+        type: "integer"
+        minimum: 0
+        maximum: 9223372036854775807
+      unit:
+        type: "string"
+        enum:
+        - "bytes"
+    description: "The largest allowed transaction size"
+    upperCaseName: "NODESETTINGS_MAXTXSIZE"
+  NodeSettings_slotDuration:
+    required:
+    - "quantity"
+    - "unit"
+    properties:
+      quantity:
+        type: "integer"
+        minimum: 0
+        maximum: 9223372036854775807
+      unit:
+        type: "string"
+        enum:
+        - "milliseconds"
+    description: "Duration of a slot."
+    upperCaseName: "NODESETTINGS_SLOTDURATION"
+  NodeSettings_slotId:
+    properties:
+      epoch:
+        type: "integer"
+        minimum: 0
+        maximum: 9223372036854775807
+      slot:
+        type: "integer"
+        minimum: 0
+        maximum: 65535
+    description: "The current slot and epoch."
+    upperCaseName: "NODESETTINGS_SLOTID"
+  NodeSettings_softwareInfo:
+    required:
+    - "applicationName"
+    - "version"
+    properties:
+      applicationName:
+        type: "string"
+      version:
+        type: "integer"
+        minimum: 0
+        maximum: 4294967295
+    description: "Various pieces of information about the current software."
+    upperCaseName: "NODESETTINGS_SOFTWAREINFO"
