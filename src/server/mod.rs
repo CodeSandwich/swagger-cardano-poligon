@@ -140,7 +140,7 @@ impl<T> hyper::server::Service for Service<T> where T: Api + Clone + 'static {
 
                                         match result {
                                             Ok(rsp) => match rsp {
-                                                ApiV1NodeInfoGetResponse::
+                                                ApiV1NodeInfoGetResponse::Success
 
                                                     (body)
 
@@ -204,7 +204,7 @@ impl<T> hyper::server::Service for Service<T> where T: Api + Clone + 'static {
 
                                         match result {
                                             Ok(rsp) => match rsp {
-                                                ApiV1NodeSettingsGetResponse::
+                                                ApiV1NodeSettingsGetResponse::Success
 
                                                     (body)
 
@@ -261,7 +261,7 @@ impl<T> hyper::server::Service for Service<T> where T: Api + Clone + 'static {
 
                                         match result {
                                             Ok(rsp) => match rsp {
-                                                ApiV1NextUpdateGetResponse::
+                                                ApiV1NextUpdateGetResponse::Success
 
                                                     (body)
 
@@ -318,7 +318,7 @@ impl<T> hyper::server::Service for Service<T> where T: Api + Clone + 'static {
 
                                         match result {
                                             Ok(rsp) => match rsp {
-                                                ApiV1RestartNodePostResponse::
+                                                ApiV1RestartNodePostResponse::Success
 
 
                                                 => {

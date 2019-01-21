@@ -270,7 +270,7 @@ impl Api for Client {
 
                                              ))
                         .map(move |body|
-                            ApiV1NodeInfoGetResponse::(body)
+                            ApiV1NodeInfoGetResponse::Success(body)
                         )
                     ) as Box<Future<Item=_, Error=_>>
                 },
@@ -350,7 +350,7 @@ impl Api for Client {
 
                                              ))
                         .map(move |body|
-                            ApiV1NodeSettingsGetResponse::(body)
+                            ApiV1NodeSettingsGetResponse::Success(body)
                         )
                     ) as Box<Future<Item=_, Error=_>>
                 },
@@ -421,7 +421,7 @@ impl Api for Client {
 
                                              ))
                         .map(move |body|
-                            ApiV1NextUpdateGetResponse::(body)
+                            ApiV1NextUpdateGetResponse::Success(body)
                         )
                     ) as Box<Future<Item=_, Error=_>>
                 },
@@ -481,7 +481,7 @@ impl Api for Client {
                     Box::new(
 
                         future::ok(
-                            ApiV1RestartNodePostResponse::
+                            ApiV1RestartNodePostResponse::Success
                         )
                     ) as Box<Future<Item=_, Error=_>>
                 },

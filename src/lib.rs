@@ -39,7 +39,7 @@ pub const API_VERSION: &'static str = "cardano-sl:0.0.0";
 #[derive(Debug, PartialEq)]
 pub enum ApiV1NodeInfoGetResponse {
     /// 
-     ( models::ApiResponseNodeInfo ) ,
+    Success( models::ApiResponseNodeInfo ) ,
     /// Invalid &#x60;force_ntp_check&#x60;
     Invalid_ ,
 }
@@ -47,19 +47,19 @@ pub enum ApiV1NodeInfoGetResponse {
 #[derive(Debug, PartialEq)]
 pub enum ApiV1NodeSettingsGetResponse {
     /// 
-     ( models::ApiResponseNodeSettings ) ,
+    Success( models::ApiResponseNodeSettings ) ,
 }
 
 #[derive(Debug, PartialEq)]
 pub enum ApiV1NextUpdateGetResponse {
     /// 
-     ( models::ApiResponseV1SoftwareVersion ) ,
+    Success( models::ApiResponseV1SoftwareVersion ) ,
 }
 
 #[derive(Debug, PartialEq)]
 pub enum ApiV1RestartNodePostResponse {
     /// 
-     ,
+    Success,
 }
 
 
