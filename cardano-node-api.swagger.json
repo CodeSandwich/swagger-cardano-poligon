@@ -1,0 +1,796 @@
+{
+    "definitions": {
+        "APIResponse-NodeInfo": {
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/NodeInfo"
+                },
+                "meta": {
+                    "$ref": "#/definitions/Metadata"
+                },
+                "status": {
+                    "$ref": "#/definitions/ResponseStatus"
+                }
+            },
+            "required": [
+                "data",
+                "status",
+                "meta"
+            ],
+            "type": "object"
+        },
+        "APIResponse-NodeSettings": {
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/NodeSettings"
+                },
+                "meta": {
+                    "$ref": "#/definitions/Metadata"
+                },
+                "status": {
+                    "$ref": "#/definitions/ResponseStatus"
+                }
+            },
+            "required": [
+                "data",
+                "status",
+                "meta"
+            ],
+            "type": "object"
+        },
+        "APIResponse-V1 SoftwareVersion": {
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/V1SoftwareVersion"
+                },
+                "meta": {
+                    "$ref": "#/definitions/Metadata"
+                },
+                "status": {
+                    "$ref": "#/definitions/ResponseStatus"
+                }
+            },
+            "required": [
+                "data",
+                "status",
+                "meta"
+            ],
+            "type": "object"
+        },
+        "BlockchainHeight": {
+            "properties": {
+                "quantity": {
+                    "maximum": 9223372036854775807,
+                    "minimum": 0,
+                    "type": "integer"
+                },
+                "unit": {
+                    "enum": [
+                        "blocks"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "quantity",
+                "unit"
+            ],
+            "type": "object"
+        },
+        "LocalTimeDifference": {
+            "properties": {
+                "quantity": {
+                    "type": "integer"
+                },
+                "unit": {
+                    "enum": [
+                        "microseconds"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "quantity",
+                "unit"
+            ],
+            "type": "object"
+        },
+        "MaxTxSize": {
+            "properties": {
+                "quantity": {
+                    "maximum": 9223372036854775807,
+                    "minimum": 0,
+                    "type": "integer"
+                },
+                "unit": {
+                    "enum": [
+                        "bytes"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "quantity",
+                "unit"
+            ],
+            "type": "object"
+        },
+        "Metadata": {
+            "properties": {
+                "pagination": {
+                    "$ref": "#/definitions/PaginationMetadata"
+                }
+            },
+            "required": [
+                "pagination"
+            ],
+            "type": "object"
+        },
+        "NodeInfo": {
+            "example": {
+                "blockchainHeight": {
+                    "quantity": 12513853667654321111,
+                    "unit": "blocks"
+                },
+                "localBlockchainHeight": {
+                    "quantity": 12988764939106870466,
+                    "unit": "blocks"
+                },
+                "localTimeInformation": {
+                    "differenceFromNtpServer": null
+                },
+                "subscriptionStatus": {
+                    "150.136.236.249:2504:2": "subscribed",
+                    "242.71.149.224:2160:1": "subscribed"
+                },
+                "syncProgress": {
+                    "quantity": 14,
+                    "unit": "percent"
+                }
+            },
+            "properties": {
+                "blockchainHeight": {
+                    "description": "If known, the current blockchain height, in number of blocks.",
+                    "properties": {
+                        "quantity": {
+                            "maximum": 9223372036854775807,
+                            "minimum": 0,
+                            "type": "integer"
+                        },
+                        "unit": {
+                            "enum": [
+                                "blocks"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "quantity",
+                        "unit"
+                    ],
+                    "type": "object"
+                },
+                "localBlockchainHeight": {
+                    "description": "Local blockchain height, in number of blocks.",
+                    "properties": {
+                        "quantity": {
+                            "maximum": 9223372036854775807,
+                            "minimum": 0,
+                            "type": "integer"
+                        },
+                        "unit": {
+                            "enum": [
+                                "blocks"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "quantity",
+                        "unit"
+                    ],
+                    "type": "object"
+                },
+                "localTimeInformation": {
+                    "description": "Information about the clock on this node.",
+                    "example": {
+                        "differenceFromNtpServer": {
+                            "quantity": -1,
+                            "unit": "microseconds"
+                        }
+                    },
+                    "properties": {
+                        "differenceFromNtpServer": {
+                            "description": "The difference in microseconds between the node time and the NTP server. This value will be null if the NTP server is unavailable.",
+                            "properties": {
+                                "quantity": {
+                                    "type": "integer"
+                                },
+                                "unit": {
+                                    "enum": [
+                                        "microseconds"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "quantity",
+                                "unit"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "type": "object"
+                },
+                "subscriptionStatus": {
+                    "additionalProperties": {
+                        "$ref": "#/definitions/SubscriptionStatus"
+                    },
+                    "description": "Is the node connected to the network?",
+                    "type": "object"
+                },
+                "syncProgress": {
+                    "description": "Syncing progression, in percentage.",
+                    "properties": {
+                        "quantity": {
+                            "maximum": 100,
+                            "minimum": 0,
+                            "type": "integer"
+                        },
+                        "unit": {
+                            "enum": [
+                                "percent"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "quantity",
+                        "unit"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "syncProgress",
+                "localBlockchainHeight",
+                "localTimeInformation",
+                "subscriptionStatus"
+            ],
+            "type": "object"
+        },
+        "NodeSettings": {
+            "example": {
+                "feePolicy": {
+                    "a": {
+                        "quantity": -12.457099816,
+                        "unit": "lovelace/byte"
+                    },
+                    "b": {
+                        "quantity": -0.33614655,
+                        "unit": "lovelace"
+                    }
+                },
+                "gitRevision": "0e1c9322a",
+                "maxTxSize": {
+                    "quantity": 0,
+                    "unit": "bytes"
+                },
+                "projectVersion": "3",
+                "securityParameter": 1,
+                "slotCount": 2,
+                "slotDuration": {
+                    "quantity": 60,
+                    "unit": "milliseconds"
+                },
+                "slotId": {
+                    "epoch": 3216935222109,
+                    "slot": 41
+                },
+                "softwareInfo": {
+                    "applicationName": "ZY2",
+                    "version": 1
+                }
+            },
+            "properties": {
+                "feePolicy": {
+                    "description": "The fee policy.",
+                    "properties": {
+                        "a": {
+                            "description": "Slope of the linear curve",
+                            "properties": {
+                                "quantity": {
+                                    "format": "double",
+                                    "type": "number"
+                                },
+                                "unit": {
+                                    "enum": [
+                                        "lovelace/byte"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "quantity",
+                                "unit"
+                            ],
+                            "type": "object"
+                        },
+                        "b": {
+                            "description": "Intercept of the linear curve",
+                            "properties": {
+                                "quantity": {
+                                    "format": "double",
+                                    "type": "number"
+                                },
+                                "unit": {
+                                    "enum": [
+                                        "lovelace"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "quantity",
+                                "unit"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "a",
+                        "b"
+                    ],
+                    "type": "object"
+                },
+                "gitRevision": {
+                    "description": "Git revision of this deployment.",
+                    "type": "string"
+                },
+                "maxTxSize": {
+                    "description": "The largest allowed transaction size",
+                    "properties": {
+                        "quantity": {
+                            "maximum": 9223372036854775807,
+                            "minimum": 0,
+                            "type": "integer"
+                        },
+                        "unit": {
+                            "enum": [
+                                "bytes"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "quantity",
+                        "unit"
+                    ],
+                    "type": "object"
+                },
+                "projectVersion": {
+                    "description": "Current project's version.",
+                    "type": "string"
+                },
+                "securityParameter": {
+                    "description": "The security parameter.",
+                    "minimum": 0,
+                    "type": "number"
+                },
+                "slotCount": {
+                    "description": "The number of slots per epoch.",
+                    "minimum": 0,
+                    "type": "number"
+                },
+                "slotDuration": {
+                    "description": "Duration of a slot.",
+                    "properties": {
+                        "quantity": {
+                            "maximum": 9223372036854775807,
+                            "minimum": 0,
+                            "type": "integer"
+                        },
+                        "unit": {
+                            "enum": [
+                                "milliseconds"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "quantity",
+                        "unit"
+                    ],
+                    "type": "object"
+                },
+                "slotId": {
+                    "description": "The current slot and epoch.",
+                    "properties": {
+                        "epoch": {
+                            "maximum": 9223372036854775807,
+                            "minimum": 0,
+                            "type": "integer"
+                        },
+                        "slot": {
+                            "maximum": 65535,
+                            "minimum": 0,
+                            "type": "integer"
+                        }
+                    },
+                    "type": "object"
+                },
+                "softwareInfo": {
+                    "description": "Various pieces of information about the current software.",
+                    "properties": {
+                        "applicationName": {
+                            "type": "string"
+                        },
+                        "version": {
+                            "maximum": 4294967295,
+                            "minimum": 0,
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "applicationName",
+                        "version"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "slotId",
+                "slotDuration",
+                "slotCount",
+                "softwareInfo",
+                "projectVersion",
+                "gitRevision",
+                "maxTxSize",
+                "feePolicy",
+                "securityParameter"
+            ],
+            "type": "object"
+        },
+        "Page": {
+            "default": 1,
+            "minimum": 1,
+            "type": "integer"
+        },
+        "PaginationMetadata": {
+            "properties": {
+                "page": {
+                    "$ref": "#/definitions/Page"
+                },
+                "perPage": {
+                    "$ref": "#/definitions/PerPage"
+                },
+                "totalEntries": {
+                    "maximum": 9223372036854775807,
+                    "minimum": 0,
+                    "type": "number"
+                },
+                "totalPages": {
+                    "maximum": 9223372036854775807,
+                    "minimum": 0,
+                    "type": "number"
+                }
+            },
+            "required": [
+                "totalPages",
+                "page",
+                "perPage",
+                "totalEntries"
+            ],
+            "type": "object"
+        },
+        "PerPage": {
+            "default": 10,
+            "maximum": 50,
+            "minimum": 1,
+            "type": "integer"
+        },
+        "ResponseStatus": {
+            "enum": [
+                "success",
+                "fail",
+                "error"
+            ],
+            "type": "string"
+        },
+        "SecurityParameter": {
+            "minimum": 0,
+            "type": "number"
+        },
+        "SlotDuration": {
+            "properties": {
+                "quantity": {
+                    "maximum": 9223372036854775807,
+                    "minimum": 0,
+                    "type": "integer"
+                },
+                "unit": {
+                    "enum": [
+                        "milliseconds"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "quantity",
+                "unit"
+            ],
+            "type": "object"
+        },
+        "SlotId": {
+            "properties": {
+                "epoch": {
+                    "maximum": 9223372036854775807,
+                    "minimum": 0,
+                    "type": "integer"
+                },
+                "slot": {
+                    "maximum": 65535,
+                    "minimum": 0,
+                    "type": "integer"
+                }
+            },
+            "type": "object"
+        },
+        "SubscriptionStatus": {
+            "enum": [
+                "subscribed",
+                "subscribing"
+            ],
+            "type": "string"
+        },
+        "SyncPercentage": {
+            "properties": {
+                "quantity": {
+                    "maximum": 100,
+                    "minimum": 0,
+                    "type": "integer"
+                },
+                "unit": {
+                    "enum": [
+                        "percent"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "quantity",
+                "unit"
+            ],
+            "type": "object"
+        },
+        "TimeInfo": {
+            "example": {
+                "differenceFromNtpServer": {
+                    "quantity": -1,
+                    "unit": "microseconds"
+                }
+            },
+            "properties": {
+                "differenceFromNtpServer": {
+                    "description": "The difference in microseconds between the node time and the NTP server. This value will be null if the NTP server is unavailable.",
+                    "properties": {
+                        "quantity": {
+                            "type": "integer"
+                        },
+                        "unit": {
+                            "enum": [
+                                "microseconds"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "quantity",
+                        "unit"
+                    ],
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
+        "TxFeePolicy": {
+            "properties": {
+                "a": {
+                    "description": "Slope of the linear curve",
+                    "properties": {
+                        "quantity": {
+                            "format": "double",
+                            "type": "number"
+                        },
+                        "unit": {
+                            "enum": [
+                                "lovelace/byte"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "quantity",
+                        "unit"
+                    ],
+                    "type": "object"
+                },
+                "b": {
+                    "description": "Intercept of the linear curve",
+                    "properties": {
+                        "quantity": {
+                            "format": "double",
+                            "type": "number"
+                        },
+                        "unit": {
+                            "enum": [
+                                "lovelace"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "quantity",
+                        "unit"
+                    ],
+                    "type": "object"
+                }
+            },
+            "required": [
+                "a",
+                "b"
+            ],
+            "type": "object"
+        },
+        "TxOut": {
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "coin": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "coin",
+                "address"
+            ],
+            "type": "object"
+        },
+        "TxOutAux": {
+            "properties": {
+                "toaOut": {
+                    "$ref": "#/definitions/TxOut"
+                }
+            },
+            "required": [
+                "toaOut"
+            ],
+            "type": "object"
+        },
+        "V1Core.SlotCount": {
+            "minimum": 0,
+            "type": "number"
+        },
+        "V1SoftwareVersion": {
+            "properties": {
+                "applicationName": {
+                    "type": "string"
+                },
+                "version": {
+                    "maximum": 4294967295,
+                    "minimum": 0,
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "applicationName",
+                "version"
+            ],
+            "type": "object"
+        },
+        "V1Version": {
+            "type": "string"
+        }
+    },
+    "host": "127.0.0.1:8080",
+    "info": {
+        "license": {
+            "name": "MIT",
+            "url": "https://raw.githubusercontent.com/input-output-hk/cardano-sl/develop/lib/LICENSE"
+        },
+        "title": "Cardano Node API",
+        "version": "cardano-sl:0"
+    },
+    "paths": {
+        "/api/v1/next-update": {
+            "get": {
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/APIResponse-V1 SoftwareVersion"
+                        }
+                    }
+                },
+                "summary": "Version of the next update",
+                "description": "Returns 404 if there's no available update.",
+                "tags": [
+                    "Updates"
+                ]
+            }
+        },
+        "/api/v1/node-info": {
+            "get": {
+                "parameters": [
+                    {
+                        "allowEmptyValue": true,
+                        "default": false,
+                        "description": "In some cases, API Clients need to force a new NTP check as a previous result gets cached. A typical use-case is after asking a user to fix its system clock. If this flag is set, request will block until NTP server responds or it will timout if NTP server is not available within **30** seconds.",
+                        "in": "query",
+                        "name": "force_ntp_check",
+                        "type": "boolean"
+                    }
+                ],
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/APIResponse-NodeInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid `force_ntp_check`"
+                    }
+                },
+                "summary": "Retrieves the dynamic information for this node.",
+                "tags": [
+                    "Info"
+                ]
+            }
+        },
+        "/api/v1/node-settings": {
+            "get": {
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/APIResponse-NodeSettings"
+                        }
+                    }
+                },
+                "summary": "Retrieves the static settings for this node.",
+                "tags": [
+                    "Settings"
+                ]
+            }
+        },
+        "/api/v1/restart-node": {
+            "post": {
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "responses": {
+                    "202": {
+                        "description": ""
+                    }
+                },
+                "summary": "Restart the node",
+                "description": "Restart the underlying node software. If there's an update available, the update will be applied upon restart.",
+                "tags": [
+                    "Updates"
+                ]
+            }
+        }
+    },
+    "swagger": "2.0"
+}
