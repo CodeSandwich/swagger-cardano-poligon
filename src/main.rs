@@ -9,25 +9,38 @@ use cardano_node_api::{Api, ApiError, ApiV1NodeInfoGetResponse, ApiV1NodeSetting
 use cardano_node_api::server::Service;
 use futures::Future;
 use hyper::{Request, Response};
-use hyper::server::{Http, NewService};
-use std::io;
-use swagger::auth::AllowAllAuthenticator;
+use hyper::server::Http;
 use tokio_proto::TcpServer;
 
 fn main() {
     println!("Hello world!");
-
-    let service_fn =
-        cardano_node_api::server::auth::NewService::new(
-            AllowAllAuthenticator::new(
-                MyService,
-                "cosmo"
-        )
-    );
-
     let addr = "127.0.0.1:8080".parse().expect("Failed to parse bind address");
     TcpServer::new(Http::new(), addr)
-        .serve(service_fn);
+        .serve(|| Ok(MyService::new()));
+}
+
+struct MyService {
+    service: Service<MyApi>,
+}
+
+impl MyService {
+    fn new() -> Self {
+        MyService {
+            service: Service::new(MyApi),
+        }
+    }
+}
+
+impl hyper::server::Service for MyService {
+    type Request = Request;
+    type Response = Response;
+    type Error = hyper::Error;
+    type Future = Box<Future<Item=Response, Error=hyper::Error>>;
+
+    fn call(&self, req: Self::Request) -> Self::Future {
+        let context = Context::default();
+        self.service.call((req, context))
+    }
 }
 
 #[derive(Clone)]
@@ -52,19 +65,5 @@ impl Api for MyApi {
     fn api_v1_restart_node_post(&self, _context: &Context) -> Box<Future<Item=ApiV1RestartNodePostResponse, Error=ApiError>> {
         println!("Hello api_v1_restart_node_post!");
         Box::new(futures::failed(ApiError("Hello api_v1_restart_node_post!".to_string())))
-    }
-}
-
-pub struct MyService;
-
-impl NewService for MyService {
-    type Request = (Request, Context);
-    type Response = Response;
-    type Error = hyper::Error;
-    type Instance = Service<MyApi>;
-
-    /// Instantiate a new server.
-    fn new_service(&self) -> io::Result<Self::Instance> {
-        Ok(Service::new(MyApi))
     }
 }
